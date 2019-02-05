@@ -1,0 +1,92 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+
+namespace Curso_CSharp_LINQ
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Sequência a ser consultada
+            int[] sequencia = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            var filtro = from p in sequencia 
+                         where (p % 2) == 0 
+                         //orderby p
+                         orderby p descending
+                         select p;
+
+
+            //// Consulta que retorna os números pares
+            //IEnumerable<int> filtro = System.Linq.Enumerable.
+            //                          Where(sequencia, n => n % 2 == 0);
+            Console.WriteLine("-----------numeros pares descendentes ---------------------");
+            foreach (var val in filtro)
+            {
+                Console.WriteLine( val + " ");
+            }
+
+            //----------------------------------------
+            // Crio a sequência a ser consultada
+            string[] sequencia2 = { "Vasco", "Fluminense", "Bota-Fogo", "Grêmio", "Santos", "Internacional", "Cruzeiro", "Figueirense" };
+
+    
+            //Executo a consulta utilizando os operadores encadeados.
+            //var filtro2 = sequencia2
+            //              .Where(n => n.Contains("a")) // Condição
+            //              .OrderBy(n => n.Length)      // Ordenação
+            //              .Select(n => n.ToUpper());   // Tudo em letras maiúsculas  
+
+            var filtro2 = from s in sequencia2
+                          where s.Contains("o")
+                          orderby s.Length
+                          select s.ToUpper();
+
+            Console.WriteLine("-----------Times com letra o no nome ---------------------");
+             foreach (var val in filtro2)
+             {
+                 Console.WriteLine(val + " ");
+             }
+
+            //----------------------------------
+             var pessoas = new List<Pessoa>
+             {
+		        new Pessoa {Idade=15,Nome="Larrisa"},
+		        new Pessoa {Idade=17,Nome="Janice"},
+		        new Pessoa {Idade=16,Nome="Bianca"},
+		        new Pessoa {Idade=25,Nome="Yuri"},
+		        new Pessoa {Idade=38,Nome="Kátia"},
+		        new Pessoa {Idade=18,Nome="Marco Antonio"}
+	        };
+
+             var adolescentes = from p in pessoas where p.Idade > 14 && p.Idade < 18 select p;
+             Console.WriteLine("-----------adolescentes entre 15 a 18 anos ---------------------");
+             foreach (var val in adolescentes)
+             {
+                 Console.WriteLine(val.Nome + "\t\n");
+             }
+
+             Console.WriteLine("-----------consultano sistema de arquivos : pasta c:\\dados  arquivo = .mdb ---------------");
+             var arquivos = from arquivo in new DirectoryInfo(@"C:\Dados").GetFiles()
+                            orderby arquivo.CreationTime
+                            where arquivo.Name.Contains(".mdb")
+                            select arquivo;
+
+             foreach (var arquivo in arquivos)
+             {
+                 Console.WriteLine("{0}: {1}", arquivo.CreationTime, arquivo.Name);
+             }
+
+             Console.ReadKey();
+        }
+    }
+
+    public class Pessoa
+    {
+        public int Idade;
+        public string Nome;
+    }
+}
