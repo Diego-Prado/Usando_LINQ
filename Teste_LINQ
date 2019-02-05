@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Linq
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] nome = new string[] { "Diego", "Kátia", "Dexter" };
+
+            var item = from s in nome
+                       where s.EndsWith("LINQ")
+                       select s;
+
+            foreach (var teste in nome)
+            {
+                Console.WriteLine(teste);
+            }
+            Console.ReadKey();
+        }
+    }
+}
